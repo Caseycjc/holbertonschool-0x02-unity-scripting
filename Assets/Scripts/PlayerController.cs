@@ -5,12 +5,13 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float speed;
-
     private Rigidbody rb;
+    private int score;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        score = 0;
     }
 
     void FixedUpdate()
@@ -21,5 +22,15 @@ public class PlayerController : MonoBehaviour
         Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
 
         rb.AddForce(movement * speed);
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Pickup"))
+        {
+            other.gameObject.SetActive(false);
+            score++;
+            Debug.Log("Score: " + score);
+        }
     }
 }
